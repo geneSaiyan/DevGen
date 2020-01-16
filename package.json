@@ -18,6 +18,7 @@
   "homepage": "https://github.com/geneSaiyan/DevGen#readme",
   "dependencies": {
     "github-scraper": "^6.8.0",
-    "inquirer": "^7.0.3"
+    "inquirer": "^7.0.3",
+    "pdfmake": "^0.1.63"
   }
 }
