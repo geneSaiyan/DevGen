@@ -1,37 +1,8 @@
 //Installing npm packages
 const gs = require('github-scraper');
 const inquirer = require("inquirer");
-var fonts = {
-    Courier: {
-        normal: 'Courier',
-        bold: 'Courier-Bold',
-        italics: 'Courier-Oblique',
-        bolditalics: 'Courier-BoldOblique'
-    },
-    Helvetica: {
-        normal: 'Helvetica',
-        bold: 'Helvetica-Bold',
-        italics: 'Helvetica-Oblique',
-        bolditalics: 'Helvetica-BoldOblique'
-    },
-    Times: {
-        normal: 'Times-Roman',
-        bold: 'Times-Bold',
-        italics: 'Times-Italic',
-        bolditalics: 'Times-BoldItalic'
-    },
-    Symbol: {
-        normal: 'Symbol'
-    },
-    ZapfDingbats: {
-        normal: 'ZapfDingbats'
-    }
-};
-
-var PdfPrinter = require('pdfmake');
-var printer = new PdfPrinter(fonts);
 var fs = require('fs');
-
+convertFactory = require('electron-html-to');
 
 inquirer
     //Prompt user to enter a github username
@@ -54,19 +25,24 @@ inquirer
 
         //Use github-scraper to return the github data based on the username input
         gs(url, function (err, data) {
+
+    
             console.log(data);
 
-            var docDefinition = {
-                content: [
-                    data.username,
-                ],
-                defaultStyle: {
-                    font: 'Helvetica'
+            var conversion = convertFactory({
+                converterPath: convertFactory.converters.PDF
+              });
+               
+              conversion({ html: `'<h1>${data.username}</h1>'` }, function(err, result) {
+                if (err) {
+                  return console.error(err);
                 }
-            };
+               
+                console.log(result.numberOfPages);
+                console.log(result.logs);
+                result.stream.pipe(fs.createWriteStream('/path/to/anywhere.pdf'));
+                //conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
+              });
 
-            var pdfDoc = printer.createPdfKitDocument(docDefinition);
-            pdfDoc.pipe(fs.createWriteStream('devGen.pdf'));
-            pdfDoc.end();
         })
     });;
