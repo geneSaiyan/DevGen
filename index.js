@@ -1,8 +1,8 @@
 //Installing npm packages
 const gs = require('github-scraper');
 const inquirer = require("inquirer");
-var fs = require('fs');
-convertFactory = require('electron-html-to');
+const fs = require('fs');
+const convertFactory = require('electron-html-to');
 
 inquirer
     //Prompt user to enter a github username
@@ -32,17 +32,19 @@ inquirer
             var conversion = convertFactory({
                 converterPath: convertFactory.converters.PDF
               });
-               
-              conversion({ html: `'<h1>${data.username}</h1>'` }, function(err, result) {
+
+              conversion({ html: '<h1>Hello World</h1>' }, function(err, result) {
                 if (err) {
                   return console.error(err);
                 }
                
                 console.log(result.numberOfPages);
                 console.log(result.logs);
-                result.stream.pipe(fs.createWriteStream('/path/to/anywhere.pdf'));
-                //conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
+                result.stream.pipe(fs.createWriteStream('anywhere.pdf'));
+                conversion.kill(); // necessary if you use the electron-server strategy, see bellow for details
               });
 
         })
     });;
+
+    
