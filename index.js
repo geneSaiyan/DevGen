@@ -1,11 +1,11 @@
+const fs = require('fs');
 //Installing npm packages
 const gs = require('github-scraper');
 const inquirer = require("inquirer");
-const fs = require('fs');
 const electron = require('electron-html-to');
 
 inquirer
-    //Prompt user to enter a github username
+    //Prompt user to enter a github username and favorite color
     .prompt([
         {
             type: "input",
@@ -25,7 +25,6 @@ inquirer
 
         //Use github-scraper to return the github data based on the username input
         gs(url, function (err, data) {
-
 
             console.log(data);
 
@@ -70,10 +69,12 @@ inquirer
                             <div class="col-8">
                                     <div class="jumbotron ">
                                             <h1 class="display-4">${data.name}</h1>
-                                            <p class="lead">This is a simple hero unit, a simple jumbotron-style component for calling extra attention to featured content or information.</p>
+                                            <p class="lead">${data.bio}</p>
                                             <hr class="my-4">
-                                            <p>It uses utility classes for typography and spacing to space content out within the larger container.</p>
-                                            <a class="btn btn-primary btn-lg" href="#" role="button">Learn more</a>
+                                            <p>Public Repositories: ${data.repos}</p>
+                                            <p>GitHub Stars: ${data.stars}</p>
+                                            <p>Followers: ${data.followers}</p>
+                                            <p>Following: ${data.following}</p>
                                           </div>
                             </div>
                         </div>
