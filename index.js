@@ -57,6 +57,11 @@ inquirer
                         }
                         #mainDiv {
                             background-color: ${response.favColor};
+                            border-radius: 5px;
+                        }
+                        #content{
+                            margin: 2%;
+                            padding-top: 2%;
                         }
                     </style>
                 </head>
@@ -67,7 +72,7 @@ inquirer
                         <h1 style="margin-top:2%">DevGen: Profile Generator</h1>
                         <hr>
                         <div id="mainDiv">
-                        <div class="row">
+                        <div class="row" id="content">
                             <div class="col-4">
                                 <div class="card" style="width: 18rem;">
                                     <img src="${data.data.avatar_url}" class="card-img-top"
@@ -75,8 +80,8 @@ inquirer
                                     <div class="card-body">
                                         <h5 class="card-title" >${response.username}</h5>
                                         <p><a href="https://www.google.com/maps/search/?api=1&query=${data.data.location}" target="_blank">${data.data.location}</a></p>
-                                        <a href="${data.data.url}" target="_blank" style="width:120px" class="btn btn-primary">My Github</a> 
-                                        <a href="${data.data.blog}" target="_blank" style="width:120px" class="btn btn-primary">My Blog</a>
+                                        <a href="${data.data.url}" target="_blank" style="width:120px" class="btn btn-dark">My Github</a> 
+                                        <a href="${data.data.blog}" target="_blank" style="width:120px" class="btn btn-dark">My Blog</a>
                                     </div>
                                 </div>
                             </div>
@@ -95,7 +100,6 @@ inquirer
                     </div>
                     </div>
                   
-
                     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
                         crossorigin="anonymous"></script>
