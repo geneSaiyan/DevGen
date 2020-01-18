@@ -74,7 +74,7 @@ inquirer
                                         alt="avatar">
                                     <div class="card-body">
                                         <h5 class="card-title" >${response.username}</h5>
-                                        <p><a href="https://www.google.com/maps/search/?api=1&${data.data.location}" target="_blank">${data.data.location}</a></p>
+                                        <p><a href="https://www.google.com/maps/search/?api=1&query=${data.data.location}" target="_blank">${data.data.location}</a></p>
                                         <a href="${data.data.url}" target="_blank" style="width:120px" class="btn btn-primary">My Github</a> 
                                         <a href="${data.data.blog}" target="_blank" style="width:120px" class="btn btn-primary">My Blog</a>
                                     </div>
