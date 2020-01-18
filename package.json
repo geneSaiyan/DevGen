@@ -17,6 +17,7 @@
   },
   "homepage": "https://github.com/geneSaiyan/DevGen#readme",
   "dependencies": {
+    "axios": "^0.19.1",
     "electron": "^5.0.12",
     "electron-html-to": "^2.6.0",
     "github-scraper": "^6.8.0",
