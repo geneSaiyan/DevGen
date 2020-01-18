@@ -17,7 +17,6 @@ inquirer
             message: "What is your favorite color?",
             name: "favColor"
         }
-
     ])
     .then(function (response) {
         //Place the username in a variable for the url search
@@ -39,19 +38,26 @@ inquirer
                 <html>
                 
                 <head>
+                <meta charset="UTF-8">
+                <meta name="viewport" content="width=device-width, initial-scale=1.0">
+                <meta http-equiv="X-UA-Compatible" content="ie=edge">
                     <title>DevGen PDF</title>
-                
+                   
                     <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
                         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+                        
                     <style>
                         body {
+                            -webkit-print-color-adjust: exact !important;
+                        }
+                        #mainDiv {
                             background-color: ${response.favColor};
                         }
                     </style>
-                
                 </head>
                 
                 <body>
+                <div id="mainDiv">
                     <div class="container">
                         <h1 style="margin-top:2%">DevGen: Profile Generator</h1>
                         <hr>
@@ -61,7 +67,7 @@ inquirer
                                     <img src="${data.avatar}" class="card-img-top"
                                         alt="avatar">
                                     <div class="card-body">
-                                        <h5 class="card-title">${response.username}</h5>
+                                        <h5 class="card-title" >${response.username}</h5>
                                         <a href="https://www.github.com${data.url}" target="_blank" style="width:120px" class="btn btn-primary">My Github</a> 
                                         <a href="https://www.github.com${data.website}" target="_blank" style="width:120px" class="btn btn-primary">My Blog</a>
                                     </div>
@@ -80,7 +86,8 @@ inquirer
                             </div>
                         </div>
                     </div>
-                
+                    </div>
+
                     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
                         crossorigin="anonymous"></script>
@@ -93,18 +100,17 @@ inquirer
                 </body>
                 
                 </html>
-              
-              
+
               ` }, function (err, result) {
 
                 if (err) {
                     return console.error(err);
                 }
 
+                //Create the PDF that is unique with the developers github username
                 result.stream.pipe(fs.createWriteStream(`${data.username}Resume.pdf`));
                 conversion.kill(); 
             });
-
         })
     });;
 
