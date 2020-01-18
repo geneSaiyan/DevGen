@@ -21,7 +21,7 @@ inquirer
     ])
     .then(function (response) {
         //Place the username in a variable for the url search
-        var url = `/${response.username}`
+        var url = `/${response.username}`;
 
         //Use github-scraper to return the github data based on the username input
         gs(url, function (err, data) {
@@ -45,7 +45,7 @@ inquirer
                         integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
                     <style>
                         body {
-                            background-color: whitesmoke;
+                            background-color: ${response.favColor};
                         }
                     </style>
                 
@@ -63,6 +63,7 @@ inquirer
                                     <div class="card-body">
                                         <h5 class="card-title">${response.username}</h5>
                                         <a href="https://www.github.com${data.url}" target="_blank" style="width:120px" class="btn btn-primary">My Github</a> 
+                                        <a href="https://www.github.com${data.website}" target="_blank" style="width:120px" class="btn btn-primary">My Blog</a>
                                     </div>
                                 </div>
                             </div>
@@ -78,11 +79,7 @@ inquirer
                                           </div>
                             </div>
                         </div>
-                
-                
-                
                     </div>
-                
                 
                     <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
                         integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
@@ -99,6 +96,7 @@ inquirer
               
               
               ` }, function (err, result) {
+
                 if (err) {
                     return console.error(err);
                 }
