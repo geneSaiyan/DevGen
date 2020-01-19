@@ -25,23 +25,26 @@ inquirer
         var githubUrl = `https://api.github.com/users/${response.username}`;
 
         //Url used to search for a count of the number of stars
-        var starCountUrl = `https://api.github.com/users/${response.username}/repos?per_page=100`;
+        var starCountUrl = `/${response.username}`
 
-        //Using Axios to retrieve the user data from github api
-        axios.get(githubUrl)
-            .then(function (data) {
+        //Using github scraper package to get the star count
+        gs(starCountUrl, function (err, gsData) {
 
-                //Console.log the returned data
-                console.log(data);
+            //Using Axios to retrieve the user data from github api
+            axios.get(githubUrl)
+                .then(function (user) {
 
-                //HTML to PDF conversion  using electron-html-to
-                var conversion = electron({
-                    converterPath: electron.converters.PDF
-                });
+                    //Console.log the returned developer data
+                    console.log(user);
 
-                //Html template for the PDF
-                conversion({
-                    html: `
+                    //HTML to PDF conversion  using electron-html-to
+                    var conversion = electron({
+                        converterPath: electron.converters.PDF
+                    });
+
+                    //Html template for the PDF
+                    conversion({
+                        html: `
                 <!DOCTYPE html>
                 <html>
                 
@@ -78,25 +81,25 @@ inquirer
                         <div class="row" id="content">
                             <div class="col-4">
                                 <div class="card" style="width: 18rem;">
-                                    <img src="${data.data.avatar_url}" class="card-img-top"
+                                    <img src="${user.data.avatar_url}" class="card-img-top"
                                         alt="avatar">
                                     <div class="card-body">
                                         <h5 class="card-title" >${response.username}</h5>
-                                        <p><a href="https://www.google.com/maps/search/?api=1&query=${data.data.location}" target="_blank">${data.data.location}</a></p>
-                                        <a href="${data.data.url}" target="_blank" style="width:120px" class="btn btn-dark">My Github</a> 
-                                        <a href="${data.data.blog}" target="_blank" style="width:120px" class="btn btn-dark">My Blog</a>
+                                        <p><a href="https://www.google.com/maps/search/?api=1&query=${user.data.location}" target="_blank">${user.data.location}</a></p>
+                                        <a href="${user.data.url}" target="_blank" style="width:120px" class="btn btn-dark">My Github</a> 
+                                        <a href="${user.data.blog}" target="_blank" style="width:120px" class="btn btn-dark">My Blog</a>
                                     </div>
                                 </div>
                             </div>
                             <div class="col-8">
                                     <div class="jumbotron ">
-                                            <h1 class="display-4">${data.data.name}</h1>
-                                            <p class="lead">${data.data.bio}</p>
+                                            <h1 class="display-4">${user.data.name}</h1>
+                                            <p class="lead">${user.data.bio}</p>
                                             <hr class="my-4">
-                                            <p>Public Repositories: ${data.data.public_repos}</p>
-                                            <p>GitHub Stars: Starcount</p>
-                                            <p>Followers: ${data.data.followers}</p>
-                                            <p>Following: ${data.data.following}</p>
+                                            <p>Public Repositories: ${user.data.public_repos}</p>
+                                            <p>GitHub Stars: ${gsData.stars}</p>
+                                            <p>Followers: ${user.data.followers}</p>
+                                            <p>Following: ${user.data.following}</p>
                                           </div>
                             </div>
                         </div>
@@ -114,25 +117,27 @@ inquirer
                         crossorigin="anonymous"></script>
                 </body>
                 
-                </html>
+                </html> ` 
+            
+            }, function (err, result) {
 
-              ` }, function (err, result) {
+                        if (err) {
+                            return console.error(err);
+                        }
 
-                    if (err) {
-                        return console.error(err);
-                    }
+                        //Create the PDF that is unique with the developers github username
+                        result.stream.pipe(fs.createWriteStream(`./pdf_resumes/${user.data.login}Resume.pdf`));
+                        conversion.kill();
+                        console.log(`Succesfully created a PDF resume for ${user.data.login} in the pdf_resumes folder.`);
+                    });
 
-                    //Create the PDF that is unique with the developers github username
-                    result.stream.pipe(fs.createWriteStream(`${data.data.login}Resume.pdf`));
-                    conversion.kill();
-                });
-
-            })
-            .catch(function (error) {
-                // handle error
-                console.log(error);
-            })
-
+                })
+                .catch(function (error) {
+                    // handle error
+                    console.log(error);
+                })
+        })
+        //End here
 
     });;
 
