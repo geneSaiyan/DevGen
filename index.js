@@ -21,10 +21,13 @@ inquirer
     ])
     .then(function (response) {
 
-        //Place the username in a variable for the url search
+        //Github username search URL
         var githubUrl = `https://api.github.com/users/${response.username}`;
 
-        //Using Axios to retrieve the data from github api
+        //Url used to search for a count of the number of stars
+        var starCountUrl = `https://api.github.com/users/${response.username}/repos?per_page=100`;
+
+        //Using Axios to retrieve the user data from github api
         axios.get(githubUrl)
             .then(function (data) {
 
@@ -91,7 +94,7 @@ inquirer
                                             <p class="lead">${data.data.bio}</p>
                                             <hr class="my-4">
                                             <p>Public Repositories: ${data.data.public_repos}</p>
-                                            <p>GitHub Stars: </p>
+                                            <p>GitHub Stars: Starcount</p>
                                             <p>Followers: ${data.data.followers}</p>
                                             <p>Following: ${data.data.following}</p>
                                           </div>
