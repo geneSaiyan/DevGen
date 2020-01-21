@@ -3,7 +3,7 @@ const fs = require('fs');
 const axios = require('axios');
 const inquirer = require("inquirer");
 const electron = require('electron-html-to');
-var gs = require('github-scraper');
+const gs = require('github-scraper');
 
 inquirer
     //Prompt user to enter a github username and favorite color
@@ -22,10 +22,10 @@ inquirer
     .then(function (response) {
 
         //Github username search URL
-        var githubUrl = `https://api.github.com/users/${response.username}`;
+        let githubUrl = `https://api.github.com/users/${response.username}`;
 
         //Url used to search for a count of the number of stars
-        var starCountUrl = `/${response.username}`
+        let starCountUrl = `/${response.username}`
 
         //Using github scraper package to get the star count
         gs(starCountUrl, function (err, gsData) {
@@ -69,6 +69,8 @@ inquirer
                             margin: 2%;
                             padding-top: 2%;
                         }
+                   
+
                     </style>
                 </head>
                 
@@ -92,7 +94,7 @@ inquirer
                                 </div>
                             </div>
                             <div class="col-8">
-                                    <div class="jumbotron ">
+                                    <div class="jumbotron">
                                             <h1 class="display-4">${user.data.name}</h1>
                                             <p class="lead">${user.data.bio}</p>
                                             <hr class="my-4">
